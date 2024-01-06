@@ -92,7 +92,7 @@ module.exports = {
           .replace('minute', 'minuto')
           .replace('hour', 'hora')
           .replace('day', 'dia')
-        }.\nRazão: ${reason}`);
+        }.\nRazão: ${reason ? reason : '*nenhuma razão providenciada.*'}`);
     } catch (err) {
       console.error(`There was an error while running command 'timeout': \n${err}`);
     }

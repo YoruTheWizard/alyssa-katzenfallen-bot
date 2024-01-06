@@ -57,7 +57,7 @@ module.exports = {
 
     try {
       await member.kick({ reason });
-      interaction.reply(`**Haiya!** ${member.user.username} foi chutado para fora do servidor. Razão: ${reason ? reason : 'nenhuma razão providenciada'}`);
+      interaction.reply(`**Haiya!** ${member.user.username} foi chutado para fora do servidor. Razão: ${reason ? reason : '*nenhuma razão providenciada*'}`);
     } catch (err) {
       console.log(`There was an error while running the command 'kick': \n${err}`);
     }

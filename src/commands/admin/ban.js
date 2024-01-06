@@ -57,7 +57,7 @@ module.exports = {
 
     try {
       await member.ban({ reason });
-      interaction.reply(`**Bang!** ${member.user.username} foi banido. Razão: ${reason ? reason : 'nenhuma razão providenciada'}`);
+      interaction.reply(`**Bang!** ${member.user.username} foi banido. Razão: ${reason ? reason : '*nenhuma razão providenciada*'}`);
     } catch (err) {
       console.log(`There was an error while running the command 'ban': \n${err}`);
     }
