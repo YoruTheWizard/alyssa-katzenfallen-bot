@@ -1,4 +1,5 @@
 const { ApplicationCommandOptionType, Client, EmbedBuilder } = require('discord.js');
+const { errorLogger } = require('../../../util/utils');
 
 module.exports = {
   staffOnly: true,
@@ -77,7 +78,7 @@ module.exports = {
       interaction.channel.send({ content: '@everyone', embeds: [titleEmbed] });
       interaction.reply({ content: 'Mensagem enviada!', ephemeral: true });
     } catch (err) {
-      console.log(`Error while running command "new title":\n${err}`);
+      errorLogger('new title', err);
     }
   }
 };

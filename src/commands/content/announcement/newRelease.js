@@ -1,7 +1,6 @@
 const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
 const { Client } = require('discord.js');
-const getTitlesList = require('../../../util/getTitlesList');
-const titles = require('../../../json/scanTitles.json');
+const { getTitlesChoices, getTitlesList, errorLogger } = require('../../../util/utils');
 
 module.exports = {
   staffOnly: true,
@@ -13,7 +12,7 @@ module.exports = {
         name: 'obra',
         description: 'Nome da obra',
         type: ApplicationCommandOptionType.String,
-        choices: getTitlesList(),
+        choices: getTitlesChoices(),
         required: true
       },
       {
@@ -79,6 +78,7 @@ module.exports = {
         || interaction.options.get('link-imagem')?.value;
 
     let titleObj;
+    const titles = getTitlesList();
     for (let title of titles)
       if (title.id === titleId) titleObj = title;
 
@@ -125,7 +125,7 @@ module.exports = {
       interaction.channel.send({ content: `${role}`, embeds: [releaseEmbed] });
       interaction.reply({ content: 'Mensagem enviada!', ephemeral: true });
     } catch (err) {
-      console.log(`Error while running command "newRelease":\n${err}`);
+      errorLogger('new release', err);
     }
   }
 };
