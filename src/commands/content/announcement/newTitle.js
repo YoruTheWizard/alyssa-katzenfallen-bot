@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType, Client, EmbedBuilder } = require('discord.js');
-const { errorLogger, sendEmbeds } = require('../../../util/utils');
+const { errorLogger, sendEmbeds, linkListTreater, linkButtonsRow } = require('../../../util/utils');
 
 module.exports = {
   staffOnly: true,
@@ -56,7 +56,7 @@ module.exports = {
    */
   run: ({ interaction, client }) => {
     const name = interaction.options.get('nome').value,
-      linksText = interaction.options.get('links').value.split(', '),
+      links = linkListTreater(interaction.options.get('links').value),
       image = interaction.options.getAttachment('imagem') || interaction.options.get('link-imagem')?.value,
       sinopsys = interaction.options.get('sinopse')?.value,
       description = interaction.options.get('comentario')?.value;
@@ -80,7 +80,9 @@ module.exports = {
         value: description
       });
 
-      sendEmbeds(interaction, [titleEmbed], true);
+      const row = linkButtonsRow(links);
+
+      sendEmbeds(interaction, [titleEmbed], true, [row]);
     } catch (err) {
       errorLogger('new title', err);
     }

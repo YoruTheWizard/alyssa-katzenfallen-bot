@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
 const { Client } = require('discord.js');
-const { getTitlesChoices, getTitlesList, errorLogger, sendEmbeds } = require('../../../util/utils');
+const { getTitlesChoices, getTitlesList, errorLogger, sendEmbeds, linkButtonsRow, linkListTreater } = require('../../../util/utils');
 
 module.exports = {
   staffOnly: true,
@@ -77,8 +77,9 @@ module.exports = {
     const titleId = interaction.options.get('obra').value,
       type = interaction.options.get('tipo').value,
       number = interaction.options.get('numero').value,
-      linksStr = interaction.options.get('links').value,
+      links = linkListTreater(interaction.options.get('links').value),
       volume = interaction.options.get('volume')?.value,
+      thumbnail = interaction.options.get('link-thumbnail')?.value,
       image = interaction.options.getAttachment('imagem')
         || interaction.options.get('link-imagem')?.value;
 
@@ -124,10 +125,14 @@ module.exports = {
           iconURL: interaction.guild.iconURL()
         });
 
+      if (thumbnail) releaseEmbed.setThumbnail(thumbnail);
+
       if (image)
         releaseEmbed.setImage(image?.url ? image.url : image);
 
-      sendEmbeds(interaction, [releaseEmbed], true, role);
+      const row = linkButtonsRow(links);
+
+      sendEmbeds(interaction, [releaseEmbed], true, role, [row]);
     } catch (err) {
       errorLogger('new release', err);
     }
