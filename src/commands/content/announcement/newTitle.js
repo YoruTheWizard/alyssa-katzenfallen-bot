@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType, Client, EmbedBuilder } = require('discord.js');
-const { errorLogger } = require('../../../util/utils');
+const { errorLogger, sendEmbeds } = require('../../../util/utils');
 
 module.exports = {
   staffOnly: true,
@@ -20,13 +20,8 @@ module.exports = {
         required: true
       },
       {
-        name: 'imagem',
-        description: 'Arquivo da imagem da obra',
-        type: ApplicationCommandOptionType.Attachment,
-      },
-      {
-        name: 'link-imagem',
-        description: 'Link da imagem da obra',
+        name: 'link-thumbnail',
+        description: 'Imagem que fica ao lado no embed',
         type: ApplicationCommandOptionType.String
       },
       {
@@ -37,6 +32,16 @@ module.exports = {
       {
         name: 'comentario',
         description: 'Algum comentário sobre a obra',
+        type: ApplicationCommandOptionType.String
+      },
+      {
+        name: 'imagem',
+        description: 'Arquivo da imagem da obra',
+        type: ApplicationCommandOptionType.Attachment,
+      },
+      {
+        name: 'link-imagem',
+        description: 'Link da imagem da obra',
         type: ApplicationCommandOptionType.String
       }
     ]
@@ -75,8 +80,7 @@ module.exports = {
         value: description
       });
 
-      interaction.channel.send({ content: '@everyone', embeds: [titleEmbed] });
-      interaction.reply({ content: 'Mensagem enviada!', ephemeral: true });
+      sendEmbeds(interaction, [titleEmbed], true);
     } catch (err) {
       errorLogger('new title', err);
     }

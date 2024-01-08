@@ -1,6 +1,6 @@
 const { ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
 const { Client } = require('discord.js');
-const { getTitlesChoices, getTitlesList, errorLogger } = require('../../../util/utils');
+const { getTitlesChoices, getTitlesList, errorLogger, sendEmbeds } = require('../../../util/utils');
 
 module.exports = {
   staffOnly: true,
@@ -49,6 +49,11 @@ module.exports = {
         type: ApplicationCommandOptionType.String
       },
       {
+        name: 'link-thumbnail',
+        description: 'Imagem que fica ao lado no embed',
+        type: ApplicationCommandOptionType.String
+      },
+      {
         name: 'imagem',
         description: 'Arquivo da imagem do lançamento',
         type: ApplicationCommandOptionType.Attachment
@@ -84,7 +89,7 @@ module.exports = {
 
     if (!titleObj) {
       interaction.reply({
-        content: 'Epa! Essa obra ainda não foi registrada!',
+        content: 'Epa! Essa obra não está registrada!',
         ephemeral: true
       });
       return;
@@ -122,8 +127,7 @@ module.exports = {
       if (image)
         releaseEmbed.setImage(image?.url ? image.url : image);
 
-      interaction.channel.send({ content: `${role}`, embeds: [releaseEmbed] });
-      interaction.reply({ content: 'Mensagem enviada!', ephemeral: true });
+      sendEmbeds(interaction, [releaseEmbed], true, role);
     } catch (err) {
       errorLogger('new release', err);
     }

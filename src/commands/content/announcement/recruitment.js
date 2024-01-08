@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType, Client, EmbedBuilder } = require('discord.js');
-const { getTitlesChoices, getTitlesList, listTreater, errorLogger } = require('../../../util/utils');
+const { getTitlesChoices, getTitlesList, listTreater, errorLogger, sendEmbeds } = require('../../../util/utils');
 
 module.exports = {
   staffOnly: true,
@@ -122,8 +122,7 @@ module.exports = {
         iconURL: interaction.guild.iconURL()
       });
 
-      interaction.channel.send({ content: '@everyone', embeds: [recruitmentEmbed] });
-      interaction.reply({ content: 'Mensagem enviada!', ephemeral: true });
+      sendEmbeds(interaction, [recruitmentEmbed], true);
     } catch (err) {
       errorLogger('recruitment', err);
     }

@@ -24,7 +24,7 @@ const listTreater = listText => {
  * @param {import('discord.js').Interaction} interaction
  * @param {EmbedBuilder[]} embeds 
  * @param {boolean} ephemeral 
- * @param {Role | string} role 
+ * @param {Role | "@everyone"} role 
  */
 const sendEmbeds = (interaction, embeds, ephemeral, role = '@everyone') => {
   if (ephemeral) {
