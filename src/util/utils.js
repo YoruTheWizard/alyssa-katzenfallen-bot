@@ -1,3 +1,4 @@
+const { EmbedBuilder, Role } = require('discord.js');
 const titles = require('../json/scanTitles.json');
 
 const getTitlesChoices = () => {
@@ -20,6 +21,20 @@ const listTreater = listText => {
 
 /**
  * 
+ * @param {import('discord.js').Interaction} interaction
+ * @param {EmbedBuilder[]} embeds 
+ * @param {boolean} ephemeral 
+ * @param {Role | string} role 
+ */
+const sendEmbeds = (interaction, embeds, ephemeral, role = '@everyone') => {
+  if (ephemeral) {
+    interaction.channel.send({ content: `${role}`, embeds });
+    interaction.reply({ content: 'Mensagem enviada!', ephemeral: true });
+  } else interaction.reply({ content: `${role}`, embeds });
+};
+
+/**
+ * 
  * @param {string} commandName 
  * @param {string} errMessage 
  */
@@ -31,5 +46,6 @@ module.exports = {
   getTitlesChoices,
   getTitlesList,
   listTreater,
+  sendEmbeds,
   errorLogger
 };
